@@ -23,7 +23,7 @@ class DemoViewController: NSViewController, AnalyzerDelegate, NSTextFieldDelegat
 
         let flow = AnalyzerFlowViewController()
         flow.analyzerDelegate = self
-        addChildViewController(flow)
+        addChild(flow)
         
         flow.view.frame = container.bounds
         flow.view.autoresizingMask = [.width, .height]
@@ -34,7 +34,7 @@ class DemoViewController: NSViewController, AnalyzerDelegate, NSTextFieldDelegat
         flowController?.analyzeString("")
     }
     
-    override func controlTextDidChange(_ obj: Notification) {
+    func controlTextDidChange(_ obj: Notification) {
         let text = expressionField?.stringValue ?? ""
         flowController?.analyzeString(text)
     }
