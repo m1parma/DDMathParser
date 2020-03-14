@@ -19,7 +19,7 @@ class AnalyzerViewController: NSViewController {
     weak var analyzerDelegate: AnalyzerDelegate?
     
     init() {
-        let nibName = "\(type(of: self))"
+        let nibName = NSNib.Name("\(type(of: self))")
         let bundle = Bundle(for: type(of: self))
         super.init(nibName: nibName, bundle: bundle)
     }

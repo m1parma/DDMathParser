@@ -15,6 +15,8 @@ class DemoViewController: NSViewController, AnalyzerDelegate, NSTextFieldDelegat
     @IBOutlet var flowContainer: NSView?
     
     var flowController: AnalyzerFlowViewController?
+
+    private var controlChangeObserver: AnyObject?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,11 +34,14 @@ class DemoViewController: NSViewController, AnalyzerDelegate, NSTextFieldDelegat
         
         flowController = flow
         flowController?.analyzeString("")
-    }
-    
-    func controlTextDidChange(_ obj: Notification) {
-        let text = expressionField?.stringValue ?? ""
-        flowController?.analyzeString(text)
+
+        controlChangeObserver = NotificationCenter.default.addObserver(forName: NSControl.textDidChangeNotification,
+                                                                       object: expressionField,
+                                                                       queue: .main,
+                                                                       using: { [weak self] _ in
+                                                                        let text = self?.expressionField?.stringValue ?? ""
+                                                                        self?.flowController?.analyzeString(text)
+        })
     }
     
     func analyzerViewController(_ analyzer: AnalyzerViewController, wantsHighlightedRanges ranges: Array<Range<Int>>) {
